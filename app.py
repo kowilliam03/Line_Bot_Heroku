@@ -10,8 +10,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from getStockPrice import get_stock_price
 
+import requests
 import os
 
 app = Flask(__name__)
@@ -37,6 +37,15 @@ def callback():
         abort(400)
 
     return 'OK'
+
+def get_stock_price(stock):
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{stock}.TW?period1=0&period2=1549258857&interval=1d&events=history&=hP2rOschxO0"
+
+    resp = requests.get(url)
+    data = resp.json()
+
+    stock_price = data['chart']['result'][0]['meta']['regularMarketPrice']
+    return stock_price
 
 
 @handler.add(MessageEvent, message=TextMessage)
