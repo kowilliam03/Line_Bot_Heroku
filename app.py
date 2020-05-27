@@ -10,6 +10,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+from src.getStockPrice import get_stock_price
+
 import os
 
 app = Flask(__name__)
@@ -39,9 +41,22 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
+    stocks = {
+        '3008': "大立光",
+        '2330': "台積電",
+        '1216': "統一"
+    }
+
+    text = event.message.text
+    if text in stocks:
+        stock_price = get_stock_price(text)
+        content = f'{text} {stocks[text]} 目前股價為: {stock_price}'
+    else:
+        content = '請輸入要查詢的股票代號：(1216 統一, 2330 台積電, 3008 大立光)'
+
+        line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=content))
 
 
 if __name__ == "__main__":
