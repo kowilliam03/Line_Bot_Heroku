@@ -63,7 +63,8 @@ def handle_message(event):
     else:
         content = '請輸入要查詢的股票代號：(1216 統一, 2330 台積電, 3008 大立光)'
 
-        line_bot_api.reply_message(
+    
+    line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
 
