@@ -10,7 +10,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from src.getStockPrice import get_stock_price
+from getStockPrice import get_stock_price
 
 import os
 
